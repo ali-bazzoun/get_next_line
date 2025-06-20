@@ -6,7 +6,7 @@
 /*   By: abazzoun <abazzoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:27:35 by abazzoun          #+#    #+#             */
-/*   Updated: 2025/06/20 16:09:05 by abazzoun         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:17:57 by abazzoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,10 @@ char	*ft_gnl_str_append(char *dst, const char *src)
 	if (append == NULL)
 		return (NULL);
 	i = 0;
-	if (dst != NULL)
+	while (i < ft_gnl_strlen(dst))
 	{
-		while (dst[i])
-		{
-			append[i] = dst[i];
-			i++;
-		}
+		append[i] = dst[i];
+		i++;
 	}
 	j = 0;
 	while (src[j])

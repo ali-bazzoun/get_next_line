@@ -6,7 +6,7 @@
 /*   By: abazzoun <abazzoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:12:34 by abazzoun          #+#    #+#             */
-/*   Updated: 2025/06/20 15:59:34 by abazzoun         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:13:23 by abazzoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 500
+#  define BUFFER_SIZE 1
 # endif
 
 # include <unistd.h>
