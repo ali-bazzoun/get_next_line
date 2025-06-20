@@ -6,7 +6,7 @@
 /*   By: abazzoun <abazzoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:19:19 by abazzoun          #+#    #+#             */
-/*   Updated: 2025/06/19 18:24:49 by abazzoun         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:58:21 by abazzoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,27 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*residue;
+	static char	*repo;
 	char		buffer[BUFFER_SIZE + 1];
-	char		*newline;
-	char		*sub;
 	int			nread;
 
-	nread = read(fd,  buffer, BUFFER_SIZE);
-	if (nread == 0 && ft_gnl_char_index(residue, '\n') == -1)
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	while (ft_gnl_char_index(repo, '\n') == -1)
 	{
-		free(residue);
+		nread = read(fd, buffer, BUFFER_SIZE);
+		buffer[nread] = '\0';
+		if (nread <= 0)
+			break ;
+		repo = ft_gnl_str_append(repo, buffer);
+		if (!repo)
+			return (NULL);
+	}
+	if (!repo || *repo == '\0')
+	{
+		free(repo);
+		repo = NULL;
 		return (NULL);
 	}
-	buffer[nread] = '\0';
-	residue = ft_gnl_str_append(residue, buffer);
-	if (residue == NULL)
-		return (NULL);
-	if (ft_gnl_char_index(residue, '\n') == -1)
-		return (get_next_line(fd));
-	newline = ft_gnl_substr(residue, 0, (t_uint) ft_gnl_char_index(residue, '\n') + 1);
-	sub = ft_gnl_substr(residue, (t_uint) ft_gnl_char_index(residue, '\n') + 1, ft_gnl_strlen(residue));
-	if (sub == NULL)
-		return (NULL);
-	free(residue);
-	residue = sub;
-	return (newline);
+	return (ft_gnl_line_pop(&repo));
 }
