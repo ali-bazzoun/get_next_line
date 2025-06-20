@@ -6,7 +6,7 @@
 /*   By: abazzoun <abazzoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:19:19 by abazzoun          #+#    #+#             */
-/*   Updated: 2025/06/20 15:58:21 by abazzoun         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:08:07 by abazzoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_next_line(int fd)
 	char		buffer[BUFFER_SIZE + 1];
 	int			nread;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0)
 		return (NULL);
 	while (ft_gnl_char_index(repo, '\n') == -1)
 	{
@@ -27,10 +27,10 @@ char	*get_next_line(int fd)
 		if (nread <= 0)
 			break ;
 		repo = ft_gnl_str_append(repo, buffer);
-		if (!repo)
+		if (repo == NULL)
 			return (NULL);
 	}
-	if (!repo || *repo == '\0')
+	if (repo == NULL || *repo == '\0')
 	{
 		free(repo);
 		repo = NULL;
