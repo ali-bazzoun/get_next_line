@@ -6,7 +6,7 @@
 /*   By: abazzoun <abazzoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:27:35 by abazzoun          #+#    #+#             */
-/*   Updated: 2025/06/20 16:17:57 by abazzoun         ###   ########.fr       */
+/*   Updated: 2025/06/21 07:13:42 by abazzoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,29 @@ t_uint	ft_gnl_strlen(const char *s)
 	if (s == NULL)
 		return (0);
 	i = 0;
-	while (s[i])
+	while (*s)
+	{
+		s++;
 		i++;
+	}
 	return (i);
 }
 
-char	*ft_gnl_substr(const char *s, t_uint start_index, t_uint len)
+char	*ft_gnl_substr(const char *s, t_uint start_index, t_uint sub_len)
 {
 	char	*sub;
-	size_t	i;
+	char	*p;
+	int		sub_leni;
 
-	sub = (char *)malloc(sizeof(*sub) * ((len - start_index) + 1));
+	sub = (char *)malloc(sizeof(*sub) * ( sub_len + 1));
 	if (sub == NULL)
 		return (NULL);
-	i = 0;
-	while (i < len - start_index)
-	{
-		sub[i] = s[start_index + i];
-		i++;
-	}
-	sub[i] = '\0';
+	sub_leni = (int) sub_len;
+	p = sub;
+	s += start_index;
+	while (sub_leni--)
+		*p++ = *s++;
+	*p = '\0';
 	return (sub);
 }
 
@@ -49,11 +52,12 @@ int	ft_gnl_char_index(char *str, char c)
 	if (str == NULL)
 		return (-1);
 	i = 0;
-	while (str[i])
+	while (*str)
 	{
-		if (str[i] == c)
+		if (*str == c)
 			return (i);
 		i++;
+		str++;
 	}
 	return (-1);
 }
@@ -61,24 +65,23 @@ int	ft_gnl_char_index(char *str, char c)
 char	*ft_gnl_str_append(char *dst, const char *src)
 {
 	char	*append;
-	t_uint	append_len;
-	t_uint	i;
-	t_uint	j;
+	char	*dstp;
+	char	*p;
+	int		dst_len;
+	int		src_len;
 
-	append_len = ft_gnl_strlen(dst) + ft_gnl_strlen(src);
-	append = (char *)malloc(sizeof(*append) * (append_len + 1));
+	dst_len = (int) ft_gnl_strlen(dst);
+	src_len = (int) ft_gnl_strlen(src);
+	append = (char *)malloc(sizeof(*append) * (dst_len + src_len + 1));
 	if (append == NULL)
 		return (NULL);
-	i = 0;
-	while (i < ft_gnl_strlen(dst))
-	{
-		append[i] = dst[i];
-		i++;
-	}
-	j = 0;
-	while (src[j])
-		append[i++] = src[j++];
-	append[i] = '\0';
+	p = append;
+	dstp = dst;
+	while (dst_len--)
+		*p++ = *dstp++;
+	while (src_len--)
+		*p++ = *src++;
+	*p = '\0';
 	if (dst != NULL)
 		free(dst);
 	return (append);
@@ -90,15 +93,17 @@ char	*ft_gnl_line_pop(char **repo)
 	char	*line;
 	char	*rest;
 	int		index;
+	int		len;
 
 	str = *repo;
+	len = ft_gnl_strlen(str);
 	index = ft_gnl_char_index(str, '\n');
 	if (index == -1)
-		index = ft_gnl_strlen(str) - 1;
+		index = len - 1;
 	line = ft_gnl_substr(str, 0, index + 1);
 	if (line == NULL)
 		return (NULL);
-	rest = ft_gnl_substr(str, index + 1, ft_gnl_strlen(str));
+	rest = ft_gnl_substr(str, index + 1, len - index - 1);
 	if (rest == NULL)
 		return (NULL);
 	free(str);
