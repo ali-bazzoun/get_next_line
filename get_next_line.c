@@ -6,7 +6,7 @@
 /*   By: abazzoun <abazzoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:19:19 by abazzoun          #+#    #+#             */
-/*   Updated: 2025/06/21 06:32:18 by abazzoun         ###   ########.fr       */
+/*   Updated: 2025/06/21 07:27:23 by abazzoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ char	*get_next_line(int fd)
 			break ;
 		buffer[nread] = '\0';
 		repo = ft_gnl_str_append(repo, buffer);
-		if (!repo)
+		if (repo == NULL)
 			return (NULL);
 	}
-	if (!repo || *repo == '\0')
+	if (repo == NULL) 
+		return (NULL);
+	if (*repo == '\0')
 	{
 		free(repo);
 		repo = NULL;
